@@ -33,7 +33,9 @@ string Format::ElapsedTime(long seconds)
     time_seconds = std::to_string(hour) + ":" + std::to_string(min) + ":" + "0" + std::to_string(time);
   }
   else
-  time_seconds = std::to_string(hour) + ":" + std::to_string(min) + ":" + std::to_string(time);
+  {
+ 	 time_seconds = std::to_string(hour) + ":" + std::to_string(min) + ":" + std::to_string(time);
+  }
   
   return time_seconds; 
 }
