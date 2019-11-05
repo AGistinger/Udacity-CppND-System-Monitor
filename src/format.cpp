@@ -24,8 +24,8 @@ string Format::ElapsedTime(long seconds)
   
   std::stringstream ss;
   
-  ss << std::setfill('0') << std::setw(2) << std::to_string(hour) << ":" << std::setfill('0') << std::to_string(min)
-    << ":" << std::setfill('0') << std::to_string(sec);
+  ss << std::setfill('0') << std::setw(2) << std::to_string(hour) << ":" << std::setfill('0') << std::setw(2) << std::to_string(min)
+    << ":" << std::setfill('0') << std::setw(2) << std::to_string(sec);
   
   return ss.str(); 
 }
