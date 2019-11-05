@@ -15,6 +15,15 @@ using std::size_t;
 using std::string;
 using std::vector;
 
+System::System()
+{
+  vector<int> process_ids = LinuxParser::Pids();
+  for(auto &id : process_ids)
+  {
+   	 processes_.emplace_back(Process(id));
+  }
+}
+
 // TODO: Return the system's CPU
 Processor& System::Cpu() 
 { 
@@ -24,11 +33,6 @@ Processor& System::Cpu()
 // TODO: Return a container composed of the system's processes
 vector<Process>& System::Processes() 
 { 
-  vector<int> process_ids = LinuxParser::Pids();
-  for(auto &id : process_ids)
-  {
-   	 processes_.emplace_back(Process(id));
-  }
   return processes_; 
 }
 

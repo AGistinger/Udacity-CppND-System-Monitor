@@ -130,20 +130,23 @@ int LinuxParser::TotalProcesses()
   std::ifstream in_file(file_name);
   if(in_file.is_open())
   {
-    while(key != "processes")
+    while(getline(in_file, line))
     {
-      getline(in_file, line);
       std::istringstream ss {line};
       ss >> key >> value;
+
+      if(key == "processes")
+      {
+        std::istringstream ss {value};
+        int processes;
+        ss >> processes;
+        return processes;
+      }
     }
   }
   in_file.close();
 
-  std::istringstream ss {value};
-  int processes;
-  ss >> processes;
-
-  return processes;
+  return 0;
 }
 
 // TODO: Read and return the number of running processes
@@ -155,20 +158,24 @@ int LinuxParser::RunningProcesses()
   std::ifstream in_file(file_name);
   if(in_file.is_open())
   {
-    while(key != "procs_running")
+    while(getline(in_file, line))
     {
       getline(in_file, line);
       std::istringstream ss {line};
       ss >> key >> value;
+
+      if(key == "procs_running")
+      {
+        std::istringstream ss {value};
+        int running_procs;
+        ss >> running_procs;
+        return running_procs; 
+      }
     }
   }
   in_file.close();
 
-  std::istringstream ss {value};
-  int running_procs;
-  ss >> running_procs;
-
-  return running_procs; 
+  return 0;
 }
 
 // TODO: Read and return the command associated with a process
@@ -198,21 +205,24 @@ string LinuxParser::Ram(int pid)
   std::ifstream in_file(file_name);
   if(in_file.is_open())
   {
-    while(key != "VmSize:")
+    while(getline(in_file, line))
     {
-      std::getline(in_file, line);
       std::istringstream ss {line};
       ss >> key >> value;
+      
+      if(key == "VmSize:")
+      {
+        std::istringstream ss {value};
+        int ram;
+        ss >> ram;
+        ram = ram / 1000;
+        return to_string(ram);  
+      } 
     }
   }
   in_file.close();
 
-  std::istringstream ss {value};
-  int ram;
-  ss >> ram;
-  ram = ram / 1000;
-
-  return to_string(ram); 
+  return "NA";
 }
 
 // TODO: Read and return the user ID associated with a process
@@ -225,16 +235,19 @@ string LinuxParser::Uid(int pid)
   std::ifstream in_file(file_name);
   if(in_file.is_open())
   {
-    while(key != "Uid:")
+    while(getline(in_file, line))
     {
-      getline(in_file, line);
       std::istringstream ss {line};
       ss >> key >> value;
+      if(key == "Uid:")
+      {
+        return value;
+      }
     }
   }
   in_file.close();
   
-  return value; 
+  return "NA"; 
 }
 
 // TODO: Read and return the user associated with a process
